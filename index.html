@@ -1,53 +1,703 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>My Personal Page</title>
-    <link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Mid Wang</title>
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    :root {
+      --bg: #07111f;
+      --bg-2: #0b1728;
+      --card: rgba(255, 255, 255, 0.08);
+      --card-2: rgba(255, 255, 255, 0.05);
+      --text: #f8fafc;
+      --muted: #cbd5e1;
+      --line: rgba(255, 255, 255, 0.12);
+      --accent: #67e8f9;
+      --accent-dark: #0f172a;
+      --shadow: 0 20px 60px rgba(0, 0, 0, 0.35);
+    }
+
+    body.light-mode {
+      --bg: #edf4fb;
+      --bg-2: #f8fbff;
+      --card: rgba(255, 255, 255, 0.82);
+      --card-2: rgba(255, 255, 255, 0.68);
+      --text: #0f172a;
+      --muted: #475569;
+      --line: rgba(15, 23, 42, 0.08);
+      --accent: #22d3ee;
+      --accent-dark: #082f49;
+      --shadow: 0 20px 60px rgba(15, 23, 42, 0.08);
+    }
+
+    body {
+      margin: 0;
+      font-family: Arial, Helvetica, sans-serif;
+      background:
+        radial-gradient(circle at top left, rgba(103, 232, 249, 0.18), transparent 22%),
+        radial-gradient(circle at top right, rgba(168, 85, 247, 0.16), transparent 24%),
+        linear-gradient(180deg, var(--bg), var(--bg-2));
+      color: var(--text);
+      transition: background 0.35s ease, color 0.35s ease;
+      overflow-x: hidden;
+    }
+
+    a {
+      text-decoration: none;
+      color: inherit;
+    }
+
+    .page {
+      width: min(1180px, 92%);
+      margin: 0 auto;
+      padding-bottom: 80px;
+    }
+
+    .navbar {
+      position: sticky;
+      top: 14px;
+      z-index: 20;
+      margin-top: 20px;
+      padding: 16px 22px;
+      border: 1px solid var(--line);
+      background: rgba(10, 16, 28, 0.48);
+      backdrop-filter: blur(18px);
+      border-radius: 20px;
+      box-shadow: var(--shadow);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 20px;
+    }
+
+    body.light-mode .navbar {
+      background: rgba(255, 255, 255, 0.78);
+    }
+
+    .logo {
+      font-size: 14px;
+      letter-spacing: 3px;
+      font-weight: 800;
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      flex-wrap: wrap;
+    }
+
+    .nav-links a,
+    .nav-links button {
+      border: none;
+      background: transparent;
+      color: var(--text);
+      font-size: 14px;
+      cursor: pointer;
+      padding: 8px 10px;
+      border-radius: 10px;
+      transition: 0.2s ease;
+    }
+
+    .nav-links a:hover,
+    .nav-links button:hover {
+      background: rgba(255, 255, 255, 0.07);
+    }
+
+    body.light-mode .nav-links a:hover,
+    body.light-mode .nav-links button:hover {
+      background: rgba(15, 23, 42, 0.06);
+    }
+
+    .hero {
+      min-height: 88vh;
+      display: grid;
+      grid-template-columns: 1.05fr 0.95fr;
+      gap: 36px;
+      align-items: center;
+      padding: 38px 0 20px;
+    }
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 10px 14px;
+      border-radius: 999px;
+      border: 1px solid var(--line);
+      background: var(--card);
+      backdrop-filter: blur(12px);
+      color: var(--muted);
+      font-size: 13px;
+      margin-bottom: 18px;
+    }
+
+    .badge-dot {
+      width: 9px;
+      height: 9px;
+      border-radius: 50%;
+      background: #22c55e;
+      box-shadow: 0 0 14px rgba(34, 197, 94, 0.8);
+    }
+
+    .hero h1 {
+      margin: 0;
+      font-size: clamp(48px, 8vw, 84px);
+      line-height: 0.95;
+      letter-spacing: -2px;
+    }
+
+    .hero h1 span {
+      color: var(--accent);
+    }
+
+    .hero-subtitle {
+      margin-top: 22px;
+      max-width: 620px;
+      font-size: 19px;
+      line-height: 1.9;
+      color: var(--muted);
+    }
+
+    .hero-actions {
+      margin-top: 26px;
+      display: flex;
+      gap: 14px;
+      flex-wrap: wrap;
+    }
+
+    .btn {
+      padding: 14px 20px;
+      border-radius: 16px;
+      font-weight: 700;
+      border: 1px solid transparent;
+      transition: transform 0.2s ease, opacity 0.2s ease, background 0.2s ease;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .btn:hover {
+      transform: translateY(-2px);
+    }
+
+    .btn-primary {
+      background: var(--accent);
+      color: var(--accent-dark);
+    }
+
+    .btn-secondary {
+      background: var(--card);
+      border-color: var(--line);
+      color: var(--text);
+      backdrop-filter: blur(12px);
+    }
+
+    .hero-note {
+      margin-top: 18px;
+      padding: 16px 18px;
+      border-radius: 16px;
+      background: rgba(103, 232, 249, 0.12);
+      border: 1px solid rgba(103, 232, 249, 0.24);
+      color: var(--text);
+      line-height: 1.75;
+      max-width: 650px;
+    }
+
+    .hidden {
+      display: none;
+    }
+
+    .skill-row {
+      margin-top: 24px;
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .chip {
+      padding: 10px 14px;
+      border-radius: 999px;
+      background: var(--card-2);
+      border: 1px solid var(--line);
+      color: var(--muted);
+      font-size: 14px;
+      backdrop-filter: blur(10px);
+    }
+
+    .hero-visual {
+      position: relative;
+    }
+
+    .photo-frame {
+      border-radius: 30px;
+      padding: 18px;
+      background: var(--card);
+      border: 1px solid var(--line);
+      backdrop-filter: blur(14px);
+      box-shadow: var(--shadow);
+      overflow: hidden;
+    }
+
+    .photo-frame img {
+      width: 100%;
+      display: block;
+      border-radius: 22px;
+      object-fit: cover;
+      min-height: 520px;
+      max-height: 700px;
+    }
+
+    .floating-card {
+      position: absolute;
+      left: -18px;
+      bottom: 22px;
+      padding: 16px 18px;
+      border-radius: 18px;
+      background: rgba(8, 15, 28, 0.72);
+      border: 1px solid var(--line);
+      backdrop-filter: blur(14px);
+      box-shadow: var(--shadow);
+      min-width: 180px;
+    }
+
+    body.light-mode .floating-card {
+      background: rgba(255, 255, 255, 0.82);
+    }
+
+    .floating-card p {
+      margin: 0;
+    }
+
+    .floating-label {
+      font-size: 12px;
+      color: var(--muted);
+      margin-bottom: 6px;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+    }
+
+    .floating-value {
+      font-size: 15px;
+      font-weight: 700;
+    }
+
+    .section {
+      margin-top: 34px;
+      padding: 30px;
+      border-radius: 28px;
+      border: 1px solid var(--line);
+      background: var(--card);
+      backdrop-filter: blur(16px);
+      box-shadow: var(--shadow);
+    }
+
+    .section-label {
+      margin: 0 0 10px;
+      color: var(--accent);
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      font-size: 12px;
+      font-weight: 700;
+    }
+
+    .section h2 {
+      margin: 0;
+      font-size: 38px;
+      line-height: 1.1;
+    }
+
+    .section-desc {
+      margin-top: 16px;
+      color: var(--muted);
+      line-height: 1.9;
+      font-size: 17px;
+      max-width: 860px;
+    }
+
+    .info-grid {
+      margin-top: 22px;
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
+    }
+
+    .info-card {
+      padding: 20px;
+      border-radius: 20px;
+      background: var(--card-2);
+      border: 1px solid var(--line);
+      transition: transform 0.2s ease, background 0.2s ease;
+    }
+
+    .info-card:hover {
+      transform: translateY(-4px);
+    }
+
+    .info-card-title {
+      font-size: 13px;
+      color: var(--muted);
+      margin-bottom: 8px;
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+    }
+
+    .info-card-value {
+      font-size: 18px;
+      font-weight: 700;
+      line-height: 1.5;
+    }
+
+    .tabs {
+      margin-top: 20px;
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    .tab {
+      padding: 12px 18px;
+      border-radius: 999px;
+      border: 1px solid var(--line);
+      background: var(--card-2);
+      color: var(--text);
+      cursor: pointer;
+      transition: 0.2s ease;
+      font-weight: 700;
+    }
+
+    .tab.active {
+      background: var(--accent);
+      color: var(--accent-dark);
+      border-color: transparent;
+    }
+
+    .tab-panels {
+      margin-top: 20px;
+    }
+
+    .tab-panel {
+      display: none;
+      padding: 26px;
+      border-radius: 22px;
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid var(--line);
+    }
+
+    .tab-panel.active {
+      display: block;
+      animation: fadeIn 0.25s ease;
+    }
+
+    .tab-panel h3 {
+      margin-top: 0;
+      margin-bottom: 10px;
+      font-size: 28px;
+    }
+
+    .tab-panel p {
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.9;
+      font-size: 16px;
+    }
+
+    .contact-wrap {
+      display: grid;
+      grid-template-columns: 1.1fr 0.9fr;
+      gap: 20px;
+      align-items: stretch;
+    }
+
+    .contact-card {
+      padding: 24px;
+      border-radius: 22px;
+      background: var(--card-2);
+      border: 1px solid var(--line);
+    }
+
+    .contact-card h3 {
+      margin-top: 0;
+      font-size: 24px;
+      margin-bottom: 12px;
+    }
+
+    .contact-line {
+      color: var(--muted);
+      line-height: 1.9;
+      font-size: 16px;
+      word-break: break-word;
+    }
+
+    .contact-buttons {
+      margin-top: 18px;
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    .footer {
+      margin-top: 30px;
+      text-align: center;
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(6px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @media (max-width: 980px) {
+      .hero {
+        grid-template-columns: 1fr;
+        min-height: auto;
+        padding-top: 26px;
+      }
+
+      .photo-frame img {
+        min-height: auto;
+      }
+
+      .floating-card {
+        position: static;
+        margin-top: 16px;
+      }
+
+      .info-grid,
+      .contact-wrap {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 640px) {
+      .page {
+        width: min(94%, 100%);
+      }
+
+      .navbar {
+        padding: 14px 16px;
+      }
+
+      .section {
+        padding: 22px;
+      }
+
+      .hero h1 {
+        letter-spacing: -1px;
+      }
+
+      .section h2 {
+        font-size: 30px;
+      }
+
+      .tab-panel h3 {
+        font-size: 24px;
+      }
+    }
+  </style>
 </head>
-
 <body>
+  <div class="page">
+    <header class="navbar">
+      <div class="logo">MID WANG</div>
+      <div class="nav-links">
+        <a href="#about">About</a>
+        <a href="#focus">Focus</a>
+        <a href="#contact">Contact</a>
+        <button id="themeToggle">Theme</button>
+      </div>
+    </header>
 
-<div class="container">
+    <section class="hero">
+      <div>
+        <div class="badge">
+          <span class="badge-dot"></span>
+          Personal Website
+        </div>
 
-<h1>Hi, I'm Mid</h1>
+        <h1>Hi, I’m <span>Mid</span></h1>
 
-<p class="subtitle">
-Student • Economics • Statistics
-</p>
+        <p class="hero-subtitle">
+          McGill student interested in economics, statistics, policy, language, travel, and building a life with sharper taste and stronger execution.
+        </p>
 
-<div class="card">
-<h2>About Me</h2>
+        <div class="hero-actions">
+          <a class="btn btn-primary" href="#about">Explore</a>
+          <button class="btn btn-secondary" id="introBtn">Open Intro</button>
+        </div>
 
-<p>
-I am a student who enjoys economics, statistics and public policy.
-I like learning new systems, travelling, and exploring different cultures.
-</p>
-</div>
+        <div id="introBox" class="hero-note hidden">
+          I’m interested in how systems, institutions, and incentives shape outcomes. I like clear thinking, aesthetic presentation, and work that feels intentional rather than random.
+        </div>
 
-<div class="card">
-<h2>Skills</h2>
+        <div class="skill-row">
+          <span class="chip">Economics</span>
+          <span class="chip">Statistics</span>
+          <span class="chip">Policy</span>
+          <span class="chip">Travel</span>
+          <span class="chip">Design</span>
+        </div>
+      </div>
 
-<ul>
-<li>Economics</li>
-<li>Statistics</li>
-<li>Research</li>
-<li>Languages</li>
-</ul>
-</div>
+      <div class="hero-visual">
+        <div class="photo-frame">
+          <img src="me.jpg" alt="Mid photo">
+        </div>
 
-<div class="card">
-<h2>Interests</h2>
+        <div class="floating-card">
+          <p class="floating-label">Current direction</p>
+          <p class="floating-value">Economics × Statistics × Law</p>
+        </div>
+      </div>
+    </section>
 
-<ul>
-<li>Travel</li>
-<li>Photography</li>
-<li>Music</li>
-<li>Snowboarding</li>
-</ul>
-</div>
+    <section id="about" class="section">
+      <p class="section-label">About</p>
+      <h2>A sharper self-introduction</h2>
+      <p class="section-desc">
+        I care about serious thinking, strong communication, and a more global way of looking at opportunity. I’m drawn to ideas, places, and systems with depth, and I want my personal site to feel like a real identity rather than a generic template.
+      </p>
 
-</div>
+      <div class="info-grid">
+        <div class="info-card">
+          <div class="info-card-title">Based in</div>
+          <div class="info-card-value">Montreal</div>
+        </div>
 
+        <div class="info-card">
+          <div class="info-card-title">School</div>
+          <div class="info-card-value">McGill University</div>
+        </div>
+
+        <div class="info-card">
+          <div class="info-card-title">Languages</div>
+          <div class="info-card-value">Chinese · English · French</div>
+        </div>
+      </div>
+    </section>
+
+    <section id="focus" class="section">
+      <p class="section-label">Interactive</p>
+      <h2>Things I care about</h2>
+      <p class="section-desc">
+        This section has simple interaction. Click the tabs to switch content.
+      </p>
+
+      <div class="tabs">
+        <button class="tab active" data-tab="study">Study</button>
+        <button class="tab" data-tab="travel">Travel</button>
+        <button class="tab" data-tab="style">Style</button>
+      </div>
+
+      <div class="tab-panels">
+        <div class="tab-panel active" id="study">
+          <h3>Study</h3>
+          <p>
+            I’m especially interested in economics, statistics, policy analysis, and structured reasoning. I like ideas that are rigorous, practical, and grounded in reality.
+          </p>
+        </div>
+
+        <div class="tab-panel" id="travel">
+          <h3>Travel</h3>
+          <p>
+            I like places with atmosphere, contrast, and strong visual identity. Travel matters to me because it sharpens observation and expands how I think about the world.
+          </p>
+        </div>
+
+        <div class="tab-panel" id="style">
+          <h3>Style</h3>
+          <p>
+            I care about aesthetics, design, photography, and presentation. A good personal site should not just display information — it should communicate taste.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <section id="contact" class="section">
+      <p class="section-label">Contact</p>
+      <h2>Let’s connect</h2>
+
+      <div class="contact-wrap">
+        <div class="contact-card">
+          <h3>Direct</h3>
+          <div class="contact-line">
+            Email: midwang827@gmail.com<br>
+            Tel: 514-512-0827
+          </div>
+
+          <div class="contact-buttons">
+            <a class="btn btn-primary" href="mailto:midwang827@gmail.com">Email</a>
+            <a class="btn btn-secondary" href="tel:15145120827">Call</a>
+          </div>
+        </div>
+
+        <div class="contact-card">
+          <h3>Profile</h3>
+          <div class="contact-line">
+            LinkedIn:<br>
+            linkedin.com/in/zhong-wang-6a78a2220
+          </div>
+
+          <div class="contact-buttons">
+            <a class="btn btn-secondary" href="https://www.linkedin.com/in/zhong-wang-6a78a2220/" target="_blank">LinkedIn</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <div class="footer">
+      Mid Wang
+    </div>
+  </div>
+
+  <script>
+    const introBtn = document.getElementById("introBtn");
+    const introBox = document.getElementById("introBox");
+
+    introBtn.addEventListener("click", function () {
+      introBox.classList.toggle("hidden");
+    });
+
+    const tabs = document.querySelectorAll(".tab");
+    const panels = document.querySelectorAll(".tab-panel");
+
+    tabs.forEach(function(tab) {
+      tab.addEventListener("click", function() {
+        tabs.forEach(function(item) {
+          item.classList.remove("active");
+        });
+
+        panels.forEach(function(panel) {
+          panel.classList.remove("active");
+        });
+
+        tab.classList.add("active");
+        document.getElementById(tab.dataset.tab).classList.add("active");
+      });
+    });
+
+    const themeToggle = document.getElementById("themeToggle");
+
+    themeToggle.addEventListener("click", function () {
+      document.body.classList.toggle("light-mode");
+    });
+  </script>
 </body>
 </html>
